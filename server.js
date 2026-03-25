@@ -46,6 +46,7 @@ const startServer = async () => {
   try {
     await dashMatrixSequelize.authenticate();
     await dashMatrixSequelize.sync({ force: true }); // ← yeh add karo
+    console.log("✅ Database synchronized"); // ← yeh add karo
 
     startExamExpiryCron();
 
