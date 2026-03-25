@@ -9,20 +9,22 @@ const dashMatrixSequelize = new Sequelize(
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT || "mysql",
     port: process.env.DB_PORT || 3306,
-
-    // 🔥 PERFORMANCE OPTIMIZATION
     pool: {
-      max: 15, // max connections
+      max: 15,
       min: 0,
-      acquire: 30000, // wait time before throwing error
-      idle: 10000, // close idle connections
+      acquire: 30000,
+      idle: 10000,
     },
-
     logging: false,
-
-    dialectOptions: {
-      connectTimeout: 30000,
-    },
+    // ── SSL for Aiven ─────────────────────────────────────────
+    ...(process.env.MYSQL_SSL === "true" && {
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
+    }),
   },
 );
 
