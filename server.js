@@ -45,12 +45,12 @@ module.exports = { io: global._io, sendNotificationToUser };
 const startServer = async () => {
   try {
     await dashMatrixSequelize.authenticate();
-    // console.log("✅ Connected to Talent Gate DB");
+    await dashMatrixSequelize.sync({ force: true }); // ← yeh add karo
 
     startExamExpiryCron();
 
     server.listen(PORT, HOST, () => {
-      // console.log(`🚀 Server running on http://${HOST}:${PORT}`);
+      console.log(`🚀 Server running on http://${HOST}:${PORT}`);
     });
   } catch (err) {
     console.error("❌ DB connection failed:", err);
