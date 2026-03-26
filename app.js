@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const dashMatrixSequelize = require("./config/db");
+const { dashMatrixSequelize } = require("./config/db");
 
 dotenv.config();
 
