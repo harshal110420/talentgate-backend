@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const dashMatrixSequelize = require("./config/db");
 
 dotenv.config();
 
@@ -64,5 +65,16 @@ app.use("/api/notifications", notificationRoutes);
 // app.use("/api/careers", jobApplyRoutes);
 
 app.get("/", (req, res) => res.send("Server is running!"));
-
+app.get("/health", async (req, res) => {
+  try {
+    await dashMatrixSequelize.authenticate(); // ✅ DB bhi ping hoga
+    res.json({
+      status: "OK",
+      timestamp: new Date().toISOString(),
+      version: "2.0.0",
+    });
+  } catch (err) {
+    res.status(500).json({ status: "DB_ERROR", message: err.message });
+  }
+});
 module.exports = app;
